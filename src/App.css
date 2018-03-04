@@ -1,17 +1,103 @@
 .App {
+}
+
+.App {
+  background: url("https://areyouawellbeing.texashealth.org/wp-content/uploads/2016/10/holiday-table-food.jpg")
+    center center;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.App-container {
+  padding: 10px;
+  padding-top: 40px;
+  color: white;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+.App-container .logo {
+  text-align: center;
+  font-size: 3em;
+  margin: 0 auto;
+  max-width: 720px;
+  transform: all .2s ease-in-out;
+}
+.App-container .logo.active {
+  max-width: 350px;
+}
+
+.App-container .logo img {
+  width: 100%;
+  height: auto;
+}
+
+.App:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.App .input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.App .input-group label {
+    font-style: italic;
+    font-size: 1.3em;
+    line-height: 1em;
+    font-weight: 100;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.App .input-button {
+  display: flex;
+  width: 100%;
+  max-width: 760px;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.App .input-button button {
+  border: none;
+  background: black;
+  color: white;
+  font-size: 1.1em;
+  font-weight: bold;
+  padding: 20px 40px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  transition: 0.2s all ease-in-out;
+  border: 4px solid black;
+  border-left-width: 0;
+}
+.App .input-button button:hover {
+  background: #94009e;
+  border: 4px solid black;
+  border-left-width: 0;
+  color: white;
+  cursor: pointer;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
+.App .input-group input {
+  display: inline-block;
   padding: 20px;
-  color: white;
+  font-size: 1.1em;
+  border: 4px solid black;
+  flex: 1;
 }
 
 .App-title {
@@ -22,7 +108,46 @@
   font-size: large;
 }
 
+.loading-view {
+  margin: 0 auto;
+  margin-top: 60px;
+  animation: App-logo-spin infinite 1.5s linear;
+  height: 75px;
+  width: 75px;
+  transform-origin: center;
+}
+
+.video-container {
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  border-top: 10px solid purple;
+  padding: 10px;
+  margin-top: 30px;
+  margin-bottom: 60px;
+  border-radius: 5px;
+  text-align: center;
+  background: white;
+  box-shadow: 1px 1px 14px 0px #000000ab;
+}
+
+.video-container video {
+  width: 100%;
+  height: auto;
+}
+
+.loading-view img {
+  width: 75px;
+  height: 75px;
+  display: block;
+  margin: 0;
+}
+
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

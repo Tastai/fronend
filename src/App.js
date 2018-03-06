@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import loader from "./loader_white.png";
 import logo from "./logo.png";
+import axios from "axios";
 import "./App.css";
+
+let host = "http://1d87db24.ngrok.io";
 
 const LoadingView = () => {
   return (
@@ -22,7 +25,9 @@ class App extends Component {
     console.log("Called fakeApi with: ", theUrl);
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve("http://demos.transloadit.com.s3.amazonaws.com/1b/095e201f9f11e8b87383c8f3763392/audio.mp4");
+        resolve(
+          "http://demos.transloadit.com.s3.amazonaws.com/1b/095e201f9f11e8b87383c8f3763392/audio.mp4"
+        );
       }, 2500);
     });
   };
@@ -34,16 +39,17 @@ class App extends Component {
   };
 
   getVideoLink(url_value) {
-    this.fakeApiCall(url_value)
-      .then(resp => {
-        this.setState(
-          {
-            video_url: resp
-          },
-          () => this.setState({ loading: false })
+    console.log("gettingVideo", url_value);
+    axios
+      .post(`${host}/api/video`, { url: url_value }, { timeout: 1200000 })
+      .then(res => {
+        let vid_url = `${host}/vids/${res.data.url}`;
+        console.log("REAL VAL: ", res.data, vid_url);
+        this.setState({ video_url: vid_url }, () =>
+          this.setState({ loading: false })
         );
       })
-      .catch(err => console.log(err));
+      .catch(e => console.log(e));
   }
 
   handleSubmit = event => {
@@ -52,7 +58,7 @@ class App extends Component {
       {
         loading: true
       },
-      this.getVideoLink
+      () => this.getVideoLink(url_value)
     );
   };
 
@@ -68,46 +74,32 @@ class App extends Component {
     const { video_url, url_value, loading } = this.state;
     const submitVisible = this.shouldShowButton();
 
-    return (
-      <div className="App">
+    return <div className="App">
         <div className="App-container">
           <h1 className={`logo ${video_url ? "active" : ""}`}>
             <img src={logo} />
           </h1>
 
           <div className="input-group">
-            {video_url == null && (
-              <label htmlFor="url-input">
-                Give us a long boring cooking video and we'll make it delicious
-                for you
-              </label>
-            )}
+            {video_url == null && <label htmlFor="url-input">
+                Give us a long boring cooking video and we'll make it
+                delicious for you
+              </label>}
             <div className="input-button">
-              <input
-                style={{ borderRightWidth: submitVisible ? "0" : "4px" }}
-                id="url-input"
-                value={url_value}
-                onChange={this.handleChange}
-                placeholder="Enter a YouTube Url"
-              />
-              {submitVisible && (
-                <button onClick={this.handleSubmit}>Tastaify!</button>
-              )}
+              <input style={{ borderRightWidth: submitVisible ? "0" : "4px" }} id="url-input" value={url_value} onChange={this.handleChange} placeholder="Enter a YouTube Url" />
+              {submitVisible && <button onClick={this.handleSubmit}>
+                  Tastaify!
+                </button>}
             </div>
           </div>
           {loading && <LoadingView />}
-          {video_url != null ? (
-            <div className="video-container">
-              <video controls={true}>
+          {video_url != null ? <div className="video-container">
+              <video controls={true} autoplay={true}>
                 <source src={video_url} type="video/mp4" />
               </video>
-            </div>
-          ) : (
-            ""
-          )}
+            </div> : ""}
         </div>
-      </div>
-    );
+      </div>;
   }
 }
 
